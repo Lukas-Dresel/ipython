@@ -33,6 +33,7 @@ import linecache
 import sys
 import warnings
 import re
+import snapshot
 
 from IPython import get_ipython
 from IPython.utils import PyColorize
@@ -379,6 +380,38 @@ class Pdb(OldPdb):
                 )
         except KeyboardInterrupt:
             pass
+        
+    def format_stack_trace(self, context=None):
+        result = []
+        Colors = self.color_scheme_table.active_colors
+        ColorsNormal = Colors.Normal
+        if context is None:
+            context = self.context
+        try:
+            context = int(context)
+            if context <= 0:
+                raise ValueError("Context must be a positive integer")
+        except (TypeError, ValueError) as e:
+                raise ValueError("Context must be a positive integer") from e
+        try:
+            skipped = 0
+            for hidden, frame_lineno in zip(self.hidden_frames(self.stack), self.stack):
+                if hidden and self.skip_hidden:
+                    skipped += 1
+                    continue
+                if skipped:
+                    result.append(
+                        f"{Colors.excName}    [... skipping {skipped} hidden frame(s)]{ColorsNormal}\n"
+                    )
+                    skipped = 0
+                result.append(self.format_stack_entry(frame_lineno, context=context))
+            if skipped:
+                result.append(
+                    f"{Colors.excName}    [... skipping {skipped} hidden frame(s)]{ColorsNormal}\n"
+                )
+        except KeyboardInterrupt:
+            pass
+        return result
 
     def print_stack_entry(self, frame_lineno, prompt_prefix='\n-> ',
                           context=None):
@@ -805,6 +838,18 @@ class Pdb(OldPdb):
 
     do_d = do_down
     do_u = do_up
+    
+    def do_snapshot(self, arg):
+        if not arg or arg == 'create':
+            snapshot.snapshot(context=self.format_stack_trace())
+        elif arg == 'list':
+            snapshot.print_snapshot_list()
+        elif arg == 'kill':
+            sys.exit(0)
+        else:
+            raise ValueError(f"Unknown option: {arg}")
+        
+    do_snap = do_sn = do_snapshot
 
 class InterruptiblePdb(Pdb):
     """Version of debugger where KeyboardInterrupt exits the debugger altogether."""
