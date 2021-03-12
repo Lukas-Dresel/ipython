@@ -842,10 +842,29 @@ class Pdb(OldPdb):
     def do_snapshot(self, arg):
         if not arg or arg == 'create':
             snapshot.snapshot(context=self.format_stack_trace())
-        elif arg == 'list':
+            return
+
+        option, *args = arg.split()
+        if option == 'list':
             snapshot.print_snapshot_list()
-        elif arg == 'kill':
-            sys.exit(0)
+        elif option == 'revert':
+            idx = -1
+            if args:
+                try:
+                    idx = int(args[0])
+                except ValueError:
+                    self.error(f"Could not parse snapshot index, {repr(args[0])} is not a valid integer.")
+                    return
+
+            n = len(snapshot.SNAPSHOTS)
+            if not (-n <= idx < n):
+                self.error(f"Snapshot index {idx} is invalid, valid intervals are [{-n}, {n})")
+                return
+
+            snapshot.revert_to_snapshot(idx)
+
+        elif option == 'killall':
+            snapshot.revert_to_snapshot(0)
         else:
             raise ValueError(f"Unknown option: {arg}")
         
