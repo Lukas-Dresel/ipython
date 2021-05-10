@@ -201,7 +201,9 @@ def provisionalcompleter(action='ignore'):
 
     >>> completer.do_experimental_things() # raises.
 
-    .. note:: Unstable
+    .. note::
+
+        Unstable
 
         By using this context manager you agree that the API in use may change
         without warning, and that you won't complain if they do so.
@@ -356,7 +358,9 @@ class Completion:
     """
     Completion object used and return by IPython completers.
 
-    .. warning:: Unstable
+    .. warning::
+
+        Unstable
 
         This function is unstable, API may change without warning.
         It will also raise unless use in proper context manager.
@@ -419,15 +423,17 @@ def _deduplicate_completions(text: str, completions: _IC)-> _IC:
     """
     Deduplicate a set of completions.
 
-    .. warning:: Unstable
+    .. warning::
+
+        Unstable
 
         This function is unstable, API may change without warning.
 
     Parameters
     ----------
-    text: str
+    text : str
         text that should be completed.
-    completions: Iterator[Completion]
+    completions : Iterator[Completion]
         iterator over the completions to deduplicate
 
     Yields
@@ -459,16 +465,18 @@ def rectify_completions(text: str, completions: _IC, *, _debug=False)->_IC:
     """
     Rectify a set of completions to all have the same ``start`` and ``end``
 
-    .. warning:: Unstable
+    .. warning::
+
+        Unstable
 
         This function is unstable, API may change without warning.
         It will also raise unless use in proper context manager.
 
     Parameters
     ----------
-    text: str
+    text : str
         text that should be completed.
-    completions: Iterator[Completion]
+    completions : Iterator[Completion]
         iterator over the completions to rectify
 
     Notes
@@ -755,13 +763,13 @@ def match_dict_keys(keys: List[Union[str, bytes, Tuple[Union[str, bytes]]]], pre
 
     Parameters
     ----------
-    keys:
+    keys
         list of keys in dictionary currently being completed.
-    prefix:
+    prefix
         Part of the text already typed by the user. E.g. `mydict[b'fo`
-    delims:
+    delims
         String of delimiters to consider when finding the current key.
-    extra_prefix: optional
+    extra_prefix : optional
         Part of the text already typed in multi-key index cases. E.g. for
         `mydict['foo', "bar", 'b`, this would be `('foo', 'bar')`.
 
@@ -985,7 +993,7 @@ def _formatparamchildren(parameter) -> str:
 
     Parameters
     ----------
-    parameter:
+    parameter
         Jedi's function `Param`
 
     Returns
@@ -1005,7 +1013,7 @@ def _make_signature(completion)-> str:
 
     Parameters
     ----------
-    completion: jedi.Completion
+    completion : jedi.Completion
         object does not complete a function type
 
     Returns
@@ -1837,16 +1845,18 @@ class IPCompleter(Completer):
         """
         Returns an iterator over the possible completions
 
-        .. warning:: Unstable
+        .. warning::
+
+            Unstable
 
             This function is unstable, API may change without warning.
             It will also raise unless use in proper context manager.
 
         Parameters
         ----------
-        text:str
+        text : str
             Full text of the current input, multi line string.
-        offset:int
+        offset : int
             Integer representing the position of the cursor in ``text``. Offset
             is 0-based indexed.
 

@@ -134,6 +134,42 @@ Currently, autosuggestions are only shown in the emacs or vi insert editing mode
 - The ctrl e, ctrl f, and alt f shortcuts work by default in emacs mode.
 - To use these shortcuts in vi insert mode, you will have to create `custom keybindings in your config.py <https://github.com/mskar/setup/commit/2892fcee46f9f80ef7788f0749edc99daccc52f4/>`__.
 
+
+Show pinfo information in ipdb using "?" and "??"
+-------------------------------------------------
+
+In IPDB, it is now possible to show the information about an object using "?"
+and "??", in much the same way it can be done when using the IPython prompt::
+
+    ipdb> partial?
+    Init signature: partial(self, /, *args, **kwargs)
+    Docstring:
+    partial(func, *args, **keywords) - new function with partial application
+    of the given arguments and keywords.
+    File:           ~/.pyenv/versions/3.8.6/lib/python3.8/functools.py
+    Type:           type
+    Subclasses:
+
+Previously, "pinfo" or "pinfo2" command had to be used for this purpose.
+
+
+Autoreload 3 feature
+====================
+
+Example: When an IPython session is ran with the 'autoreload' extension loaded,
+you will now have the option '3' to select which means the following:
+
+    1. replicate all functionality from option 2
+    2. autoload all new funcs/classes/enums/globals from the module when they're added
+    3. autoload all newly imported funcs/classes/enums/globals from external modules
+
+Try ``%autoreload 3`` in an IPython session after running ``%load_ext autoreload``
+
+For more information please see unit test -
+    extensions/tests/test_autoreload.py : 'test_autoload_newly_added_objects'
+
+=======
+
 .. DO NOT EDIT THIS LINE BEFORE RELEASE. FEATURE INSERTION POINT.
 
 As a reminder, IPython master has diverged from the 7.x branch, thus master may

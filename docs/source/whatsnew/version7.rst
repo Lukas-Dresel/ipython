@@ -2,6 +2,116 @@
  7.x Series
 ============
 
+.. _version 7.23:
+
+IPython 7.23
+============
+
+Third release of IPython for 2021, mostly containing bug fixes. A couple of not
+typical updates:
+
+ - We moved to GitHub actions away from Travis-CI, the transition may not be
+   100% complete (not testing on nightly anymore), but as we ran out of
+   Travis-Ci hours on the IPython organisation that was a necessary step.
+   :ghpull:`12900`.
+
+ - We have a new dependency: ``matplotlib-inline``, which try to extract
+   matplotlib inline backend specific behavior. It is available on PyPI and
+   conda-forge thus should not be a problem to upgrade to this version. If you
+   are a package maintainer that might be an extra dependency to package first.
+   :ghpull:`12817`
+
+In the addition/new feature category, ``display()`` now have a ``clear=True``
+option to clear the display if any further outputs arrives, allowing users to
+avoid having to use ``clear_output()`` directly. :ghpull:`12823`.
+
+In bug fixes category, this release fix an issue when printing tracebacks
+containing Unicode characters :ghpull:`12758`.
+
+In code cleanup category :ghpull:`12932` remove usage of some deprecated
+functionality for compatibility with Python 3.10.
+
+
+Thanks
+------
+
+Many thanks to all the contributors to this release you can find all individual
+contributions to this milestone `on github <https://github.com/ipython/ipython/milestone/86>`__.
+In particular MrMino for responding to almost all new issues, and triaging many
+of the old ones, as well as takluyver, minrk, willingc for reacting quikly when
+we ran out of CI Hours.
+
+Thanks as well to organisations, QuantStack (martinRenou and SylvainCorlay) for
+extracting matplotlib inline backend into its own package, and the `D. E. Shaw group
+<https://deshaw.com/>`__ for sponsoring work on IPython and related libraries.
+
+
+.. _version 7.22:
+
+IPython 7.22
+============
+
+Second release of IPython for 2021, mostly containing bug fixes. Here is a quick
+rundown of the few changes.
+
+- Fix some ``sys.excepthook`` shenanigan when embedding with qt, recommended if
+  you – for example – use `napari <https://napari.org>`__. :ghpull:`12842`.
+- Fix bug when using the new ipdb ``%context`` magic :ghpull:`12844`
+- Couples of deprecation cleanup :ghpull:`12868`
+- Update for new dpast.com api if you use the ``%pastbin`` magic. :ghpull:`12712`
+- Remove support for numpy before 1.16. :ghpull:`12836`
+
+
+Thanks
+------
+
+We have a new team member that you should see more often on the IPython
+repository, Błażej Michalik (@MrMino) have been doing regular contributions to
+IPython, and spent time replying to many issues and guiding new users to the
+codebase; they now have triage permissions to the IPython repository and we'll
+work toward giving them more permission in the future.
+
+Many thanks to all the contributors to this release you can find all individual
+contributions to this milestone `on github <https://github.com/ipython/ipython/milestone/84>`__.
+
+Thanks as well to organisations, QuantStack for working on debugger
+compatibility for Xeus_python, and the `D. E. Shaw group
+<https://deshaw.com/>`__ for sponsoring work on IPython and related libraries.
+
+.. _version 721:
+
+IPython 7.21
+============
+
+IPython 7.21 is the first release we have back on schedule of one release every
+month; it contains a number of minor fixes and improvements, notably, the new
+context command for ipdb
+
+
+New "context" command in ipdb
+-----------------------------
+
+It is now possible to change the number of lines shown in the backtrace
+information in ipdb using "context" command. :ghpull:`12826`
+
+(thanks @MrMino, there are other improvement from them on master).
+
+Other notable changes in IPython 7.21
+-------------------------------------
+
+- Fix some issues on new osx-arm64 :ghpull:`12804`, :ghpull:`12807`. 
+- Compatibility with Xeus-Python for debugger protocol, :ghpull:`12809`
+- Misc docs fixes for compatibility and uniformity with Numpydoc.
+  :ghpull:`12824`
+
+
+Thanks
+------
+
+Many thanks to all the contributors to this release you can find all individual
+contribution to this milestone `on github <https://github.com/ipython/ipython/milestone/83>`__.
+
+
 .. _version 720:
 
 IPython 7.20

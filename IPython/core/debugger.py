@@ -110,7 +110,6 @@ class Tracer(object):
 
         Parameters
         ----------
-
         colors : str, optional
             The name of the color scheme to use, it must be one of IPython's
             valid color schemes.  If not given, the function will default to
@@ -869,6 +868,20 @@ class Pdb(OldPdb):
             raise ValueError(f"Unknown option: {arg}")
         
     do_snap = do_sn = do_snapshot
+
+    def do_context(self, context):
+        """context number_of_lines
+        Set the number of lines of source code to show when displaying
+        stacktrace information.
+        """
+        try:
+            new_context = int(context)
+            if new_context <= 0:
+                raise ValueError()
+            self.context = new_context
+        except ValueError:
+            self.error("The 'context' command requires a positive integer argument.")
+
 
 class InterruptiblePdb(Pdb):
     """Version of debugger where KeyboardInterrupt exits the debugger altogether."""

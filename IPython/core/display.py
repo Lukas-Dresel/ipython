@@ -371,7 +371,7 @@ class DisplayObject(object):
                     with gzip.open(BytesIO(data), 'rt', encoding=encoding) as fp:
                         encoding = None
                         data = fp.read()
-                    
+
             # decode data, if an encoding was specified
             # We only touch self.data once since
             # subclasses such as SVG have @data.setter methods
@@ -1043,19 +1043,19 @@ class Video(DisplayObject):
         ----------
         data : unicode, str or bytes
             The raw video data or a URL or filename to load the data from.
-            Raw data will require passing `embed=True`.
+            Raw data will require passing ``embed=True``.
         url : unicode
-            A URL for the video. If you specify `url=`,
+            A URL for the video. If you specify ``url=``,
             the image data will not be embedded.
         filename : unicode
             Path to a local file containing the video.
-            Will be interpreted as a local URL unless `embed=True`.
+            Will be interpreted as a local URL unless ``embed=True``.
         embed : bool
             Should the video be embedded using a data URI (True) or be
             loaded using a <video> tag (False).
 
             Since videos are large, embedding them should be avoided, if possible.
-            You must confirm embedding as your intention by passing `embed=True`.
+            You must confirm embedding as your intention by passing ``embed=True``.
 
             Local files can be displayed with URLs without embedding the content, via::
 
@@ -1070,10 +1070,10 @@ class Video(DisplayObject):
             Height in pixels to which to constrain the video in html.
             If not supplied, defaults to the height of the video.
         html_attributes : str
-            Attributes for the HTML `<video>` block.
-            Default: `"controls"` to get video controls.
-            Other examples: `"controls muted"` for muted video with controls,
-            `"loop autoplay"` for looping autoplaying video without controls.
+            Attributes for the HTML ``<video>`` block.
+            Default: ``"controls"`` to get video controls.
+            Other examples: ``"controls muted"`` for muted video with controls,
+            ``"loop autoplay"`` for looping autoplaying video without controls.
 
         Examples
         --------
@@ -1155,7 +1155,12 @@ class Video(DisplayObject):
 
 @skip_doctest
 def set_matplotlib_formats(*formats, **kwargs):
-    """Select figure formats for the inline backend. Optionally pass quality for JPEG.
+    """
+    .. deprecated:: 7.23
+
+       use `matplotlib_inline.backend_inline.set_matplotlib_formats()`
+
+    Select figure formats for the inline backend. Optionally pass quality for JPEG.
 
     For example, this enables PNG and JPEG output with a JPEG quality of 90%::
 
@@ -1173,20 +1178,28 @@ def set_matplotlib_formats(*formats, **kwargs):
     **kwargs
         Keyword args will be relayed to ``figure.canvas.print_figure``.
     """
-    from IPython.core.interactiveshell import InteractiveShell
-    from IPython.core.pylabtools import select_figure_formats
-    # build kwargs, starting with InlineBackend config
-    kw = {}
-    from ipykernel.pylab.config import InlineBackend
-    cfg = InlineBackend.instance()
-    kw.update(cfg.print_figure_kwargs)
-    kw.update(**kwargs)
-    shell = InteractiveShell.instance()
-    select_figure_formats(shell, formats, **kw)
+    warnings.warn(
+        "`set_matplotlib_formats` is deprecated since IPython 7.23, directly "
+        "use `matplotlib_inline.backend_inline.set_matplotlib_formats()`",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+
+    from matplotlib_inline.backend_inline import (
+        set_matplotlib_formats as set_matplotlib_formats_orig,
+    )
+
+    set_matplotlib_formats_orig(*formats, **kwargs)
 
 @skip_doctest
 def set_matplotlib_close(close=True):
-    """Set whether the inline backend closes all figures automatically or not.
+    """
+    .. deprecated:: 7.23
+
+        use `matplotlib_inline.backend_inline.set_matplotlib_close()`
+
+
+    Set whether the inline backend closes all figures automatically or not.
 
     By default, the inline backend used in the IPython Notebook will close all
     matplotlib figures automatically after each cell is run. This means that
@@ -1206,6 +1219,15 @@ def set_matplotlib_close(close=True):
         Should all matplotlib figures be automatically closed after each cell is
         run?
     """
-    from ipykernel.pylab.config import InlineBackend
-    cfg = InlineBackend.instance()
-    cfg.close_figures = close
+    warnings.warn(
+        "`set_matplotlib_close` is deprecated since IPython 7.23, directly "
+        "use `matplotlib_inline.backend_inline.set_matplotlib_close()`",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+
+    from matplotlib_inline.backend_inline import (
+        set_matplotlib_close as set_matplotlib_close_orig,
+    )
+
+    set_matplotlib_close_orig(close)
